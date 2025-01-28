@@ -5,13 +5,30 @@ from constants import WALL_COLOR, FOOD_COLOR, TILE_SIZE
 class GameMap:
     def __init__(self):
         self.map_data = [
-            "###################",
-            "#........#........#",
-            "#.###.#.#.#.#.###.#",
-            "#.#...#...#...#...#",
-            "#.#.#.#.###.#.#.#.#",
-            "#.....#.....#.....#",
-            "###################",
+            "#######################",
+            "#.#.................#.#",
+            "#.###.#####.#####.###.#",
+            "#.........#.#.........#",
+            "#.###.###.#.#.###.###.#",
+            "#.#.#.#.#.#.#.#.#.#.#.#",
+            "###.#.#.#.#.#.#.#.#.###",
+            "#...#.#.###.###.#.#...#",
+            "#.###.#.........#.###.#",
+            "#.....#.######..#.....#",
+            "#.#####.#....#..####..#",
+            "#.....................#",
+            "#.......#....#........#",
+            "#.......######........#",
+            "#.#####.........#####.#",
+            "#.....#.###.###.#.....",
+            "#.###.#.#.#.#.#.#.###.#",
+            "#...#.#.#.#.#.#.#.#...#",
+            "###.#.#.#.#.#.#.#.#.###",
+            "#.###.###.#.#.###.###.#",
+            "#.........#.#.........#",
+            "#.###.#####.#####.###.#",
+            "#.#.................#.#",
+            "#######################",
         ]
         self.walls = []
         self.food = []
@@ -35,7 +52,7 @@ class GameMap:
     def check_collision(self, entity_rect):
         for wall in self.walls:
             if entity_rect.colliderect(wall):
-                print(f'wall collided: {wall}')
+                print(f"wall collided: {wall}")
                 return True
         return False
 
@@ -49,8 +66,8 @@ class GameMap:
     @staticmethod
     def get_direction_dict(position: list[int, int], speed: int) -> dict:
         return {
-            'LEFT': [position[0] - speed, position[1]],
-            'RIGHT': [position[0] + speed, position[1]],
-            'UP': [position[0], position[1] - speed],
-            'DOWN': [position[0], position[1] + speed],
+            "LEFT": [position[0] - speed, position[1]],
+            "RIGHT": [position[0] + speed, position[1]],
+            "UP": [position[0], position[1] - speed],
+            "DOWN": [position[0], position[1] + speed],
         }
