@@ -124,3 +124,30 @@ button:focus-visible {
   font-size: 1.25rem;
   margin-top: 8px;
 }
+
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 66px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 50;
+}
+
+.dialog-box {
+  background-color: #370e0e;
+  text-align: center;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dialog-box h2 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
