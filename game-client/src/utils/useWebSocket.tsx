@@ -10,7 +10,6 @@ const Canvas: React.FC = () => {
   const [life, setLife] = useState<number>(0);
   const [gameOver, setGameOver] = useState<boolean>(false);
   const [images, setImages] = useState<HTMLImageElement[]>([]);
-  const [arrowKey, setArrowKey] = useState<string>("");
 
   const drawImages = (
     ctx: CanvasRenderingContext2D,
@@ -25,10 +24,10 @@ const Canvas: React.FC = () => {
       if (!image.complete) return; // Ensure the image is fully loaded
 
       const [x, y] = positions[index] || [0, 0]; // Default to [0, 0] if no position is provided
-      const size = 40; // Size of the image to draw
+      const size = 35; // Size of the image to draw
 
       // Draw the image centered at (x, y)
-      ctx.drawImage(image, x - size / 2, y - size / 2, size, size);
+      ctx.drawImage(image, x - size / 2 + 5, y - size / 2 - 5, size, size);
     });
   };
 
@@ -87,7 +86,6 @@ const Canvas: React.FC = () => {
       const direction = event.key.toLowerCase();
       if (['arrowleft', 'arrowright', 'arrowup', 'arrowdown'].includes(direction)) {
         arrowWs.send(JSON.stringify({ arrow: direction }));
-        setArrowKey(direction); // Update state with the pressed key for display
       }
     };
 
@@ -117,7 +115,6 @@ const Canvas: React.FC = () => {
         ref={canvasRef}
         width={740}
         height={780}
-        style={{ border: "1px solid black" }}
       />
     </div>
   )

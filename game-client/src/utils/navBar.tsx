@@ -1,5 +1,4 @@
-import React from 'react';
-import { FaHeart } from 'react-icons/fa'; // Heart icons
+import React, { useEffect, useState } from 'react';
 
 interface NavbarProps {
     score: number;
@@ -7,6 +6,17 @@ interface NavbarProps {
 }
 
 const Navbar: React.FC<NavbarProps> = ({ score, life }) => {
+
+    const [heartImage, setHeartImage] = useState<string | null>(null);
+
+    // Preload the heart image
+    useEffect(() => {
+        const img = new Image();
+        img.src = "/assets/life_big.png"; // Replace with the correct path
+        img.onload = () => setHeartImage(img.src); // Store the loaded image URL
+        img.onerror = () => console.error("Failed to load heart image");
+    }, []);
+
     return (
         <div className="navbar">
             {/* Left side - PAC-MAN text */}
@@ -30,7 +40,12 @@ const Navbar: React.FC<NavbarProps> = ({ score, life }) => {
                 {/* Render hearts dynamically based on 'life' */}
                 <div className="heart-container flex">
                     {[...Array(life)].map((_, index) => (
-                        <FaHeart key={index} className="heart-icon text-red-500 mr-1" />
+                        <img
+                            key={index}
+                            src={heartImage}
+                            alt="Heart"
+                            className="heart-icon w-5 h-5 mr-1" // Adjust width, height, and margin as needed
+                        />
                     ))}
                 </div>
             </div>
