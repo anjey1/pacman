@@ -43,7 +43,7 @@ const SnakeMap: React.FC = () => {
 
                 if (tile === "#") {
                     // Draw Wall
-                    ctx.fillStyle = "rgb(0, 0, 255)";
+                    ctx.fillStyle = "rgb(28, 28, 102)";
                     ctx.fillRect(x, y, TILE_SIZE, TILE_SIZE);
                 } else if (tile === ".") {
                     // Draw Food

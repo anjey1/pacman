@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import Navbar from "./navBar";
 
 // Define Canvas component correctly with return type as JSX.Element
 const Canvas: React.FC = () => {
@@ -63,8 +64,7 @@ const Canvas: React.FC = () => {
 
   return (
     <div>
-      <h1>WebSocket Circles</h1>
-      <p>Last Arrow Key Pressed: {arrowKey}</p>
+      <Navbar score={200} />
       <canvas
         ref={canvasRef}
         width={740}

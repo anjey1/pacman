@@ -5,7 +5,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: #000000;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -81,4 +81,46 @@ button:focus-visible {
   height: 480px;
   z-index: 100;
   position: relative;
+}
+
+/* Font Style for Pixelated Text */
+.pixel-text {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 3rem; /* You can adjust the size as needed */
+}
+
+/* Individual Letter Colors for PAC-MAN */
+.pacman-p { color: #ffcc00; } /* Yellow */
+.pacman-a { color: #ff5733; } /* Red */
+.pacman-c { color: #33b5ff; } /* Blue */
+.pacman-dash { color: #33cc33; } /* Green */
+.pacman-m { color: #800080; } /* Purple */
+.pacman-a2 { color: #ff1493; } /* Pink */
+.pacman-n { color: #ff6600; } /* Orange */
+
+/* Navbar Container */
+.navbar {
+  width: 705px;
+  padding: 16px;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Heart Icons Container */
+.heart-container {
+  display: flex;
+  gap: 8px;
+}
+
+.heart-icon {
+  color: #ff0000;
+  font-size: 30px;
+}
+
+/* Score Container */
+.score-container {
+  font-size: 1.25rem;
+  margin-top: 8px;
 }

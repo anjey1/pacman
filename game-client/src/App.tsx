@@ -5,7 +5,7 @@ import SnakeMap from "./utils/drawMap";
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [score, setScore] = useState(110)
 
   return (
     <>
