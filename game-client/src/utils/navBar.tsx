@@ -7,7 +7,7 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ score, life }) => {
 
-    const [heartImage, setHeartImage] = useState<string | null>(null);
+    const [heartImage, setHeartImage] = useState<string | undefined>(undefined);
 
     // Preload the heart image
     useEffect(() => {
@@ -32,9 +32,8 @@ const Navbar: React.FC<NavbarProps> = ({ score, life }) => {
 
             {/* Right side - Heart icons and score */}
             <div className="flex items-center">
-                {/* Score */}
                 <div className="score-container pixel-text">
-                    <p>Score: {score}</p>
+                    <p>{score.toString().padStart(4, "0")}</p>
                 </div>
 
                 {/* Render hearts dynamically based on 'life' */}
@@ -44,7 +43,7 @@ const Navbar: React.FC<NavbarProps> = ({ score, life }) => {
                             key={index}
                             src={heartImage}
                             alt="Heart"
-                            className="heart-icon w-5 h-5 mr-1" // Adjust width, height, and margin as needed
+                            className="heart-icon w-5 h-5 mr-1"
                         />
                     ))}
                 </div>

@@ -2,10 +2,22 @@ import React, { useEffect, useRef, useState } from "react";
 import Navbar from "./navBar";
 import GameOverDialog from "./GameOverDialog";
 
+interface WebSocketData {
+  positions: {
+    pacman: number[];
+    ghosts: number[][];
+  };
+  state: {
+    score: number;
+    lives: number;
+    game_over: boolean;
+  };
+}
+
 // Define Canvas component correctly with return type as JSX.Element
 const Canvas: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [circles, setCircles] = useState<number[][]>([]);
+  const [positions, setPositions] = useState<number[][]>([]);
   const [score, setScore] = useState<number>(0);
   const [life, setLife] = useState<number>(0);
   const [gameOver, setGameOver] = useState<boolean>(false);
@@ -16,17 +28,14 @@ const Canvas: React.FC = () => {
     images: HTMLImageElement[],
     positions: number[][]
   ) => {
-    // Clear the canvas before drawing
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
-    // Iterate through the images and draw each one at the specified position
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     images.forEach((image, index) => {
       if (!image.complete) return; // Ensure the image is fully loaded
 
-      const [x, y] = positions[index] || [0, 0]; // Default to [0, 0] if no position is provided
+      const [x, y] = positions[index] || [0, 0];
       const size = 35; // Size of the image to draw
 
-      // Draw the image centered at (x, y)
       ctx.drawImage(image, x - size / 2 + 5, y - size / 2 - 5, size, size);
     });
   };
@@ -52,7 +61,6 @@ const Canvas: React.FC = () => {
         loadedCount++;
         loadedImages[index] = img;
 
-        // Once all images are loaded, update the state
         if (loadedCount === imageSrc.length) {
           setImages(loadedImages);
         }
@@ -70,8 +78,8 @@ const Canvas: React.FC = () => {
 
     ws.onopen = () => console.log("WebSocket connected!");
     ws.onmessage = (event) => {
-      const data: number[][] = JSON.parse(event.data); // Parse the received data (list of coordinates)
-      setCircles([data.positions['pacman'], ...data.positions['ghosts']]); // Update state with new circle positions
+      const data: WebSocketData = JSON.parse(event.data);
+      setPositions([data.positions['pacman'], ...data.positions['ghosts']]);
       setScore(data.state['score'])
       setLife(data.state['lives'])
       setGameOver(data.state['game_over'])
@@ -93,8 +101,8 @@ const Canvas: React.FC = () => {
 
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
-      arrowWs.close(); // Clean up arrow key WebSocket
-      ws.close(); // Clean up WebSocket connection
+      arrowWs.close();
+      ws.close();
     };
   }, []);
 
@@ -102,10 +110,11 @@ const Canvas: React.FC = () => {
     if (canvasRef.current) {
       const ctx = canvasRef.current.getContext("2d");
       if (ctx) {
-        drawImages(ctx, images, circles);
+        drawImages(ctx, images, positions);
       }
     }
-  }, [circles]); // Re-run drawCircles whenever circles change
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [positions]);
 
   return (
     <div>

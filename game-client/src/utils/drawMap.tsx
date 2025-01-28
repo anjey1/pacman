@@ -99,10 +99,11 @@ const SnakeMap: React.FC = () => {
         if (canvas && images.length > 0) {
             const ctx = canvas.getContext("2d");
             if (ctx) {
-                ctx.clearRect(0, 0, WIDTH, HEIGHT); // Clear canvas
-                drawMap(ctx); // Draw the map
+                ctx.clearRect(0, 0, WIDTH, HEIGHT);
+                drawMap(ctx);
             }
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [images]); // Redraw when images are loaded
 
     // Preload images and store them in state
