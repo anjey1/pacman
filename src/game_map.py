@@ -15,13 +15,13 @@ class GameMap:
             "#...#.#.###.###.#.#...#",
             "#.###.#.........#.###.#",
             "#.....#.######..#.....#",
-            "#.#####.#....#..####..#",
+            "#.#####.#....#..#####.#",
             "#.....................#",
-            "#.......#....#........#",
-            "#.......######........#",
-            "#.#####.........#####.#",
-            "#.....#.###.###.#.....",
-            "#.###.#.#.#.#.#.#.###.#",
+            "#.#####.#....#..#####.#",
+            "#.....#.######..#.....#",
+            "#.###.#.........#.###.#",
+            "#.#.#.#.###.###.#.#.#.#",
+            "#.#.#.#.#.#.#.#.#.#.#.#",
             "#...#.#.#.#.#.#.#.#...#",
             "###.#.#.#.#.#.#.#.#.###",
             "#.###.###.#.#.###.###.#",
@@ -39,9 +39,18 @@ class GameMap:
         for y, row in enumerate(self.map_data):
             for x, tile in enumerate(row):
                 if tile == "#":
-                    self.walls.append(pygame.Rect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE))
+                    self.walls.append(
+                        pygame.Rect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE)
+                    )
                 elif tile == ".":
-                    self.food.append(pygame.Rect(x * TILE_SIZE + TILE_SIZE // 2, y * TILE_SIZE + TILE_SIZE // 2, 5, 5))
+                    self.food.append(
+                        pygame.Rect(
+                            x * TILE_SIZE + TILE_SIZE // 2,
+                            y * TILE_SIZE + TILE_SIZE // 2,
+                            5,
+                            5,
+                        )
+                    )
 
     def draw(self, screen):
         for wall in self.walls:

@@ -67,8 +67,8 @@ const Canvas: React.FC = () => {
       <p>Last Arrow Key Pressed: {arrowKey}</p>
       <canvas
         ref={canvasRef}
-        width={640}
-        height={480}
+        width={740}
+        height={780}
         style={{ border: "1px solid black" }}
       />
     </div>
