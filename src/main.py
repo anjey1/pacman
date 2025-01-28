@@ -1,5 +1,6 @@
 import threading
 import asyncio
+import json
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from game_engine import GameEngine
 
@@ -17,11 +18,6 @@ async def websocket_endpoint(websocket: WebSocket):
     try:
         while True:
             data = game.game_state
-
-            # Check if there is any new arrow key press
-            if not arrow_queue.empty():
-                direction = await arrow_queue.get()  # Get direction from queue
-                # Update game state based on direction here (if needed)
 
             # Send the list as JSON
             await websocket.send_json(data)
@@ -41,12 +37,23 @@ async def arrow_key_endpoint(websocket: WebSocket):
 
     try:
         while True:
-            direction = await websocket.receive_text()  # Receive message from client
-            print(f"Received direction from client: {direction}")
+            data = json.loads(await websocket.receive_text())
+            direction = data["arrow"]
+            print(f"Received direction: {direction}")
 
-            # Update the arrow queue with the new direction
-            # Put the received arrow direction in the queue
-            await arrow_queue.put(direction)
+            # if event.type == pygame.QUIT:
+            #     self.running = False
+            # elif event.type == pygame.KEYDOWN:
+            #     if event.key == pygame.K_ESCAPE:
+            #         self.running = False
+            if direction == "arrowup":
+                game.direction = "UP"
+            elif direction == "arrowdown":
+                game.direction = "DOWN"
+            elif direction == "arrowleft":
+                game.direction = "LEFT"
+            elif direction == "arrowright":
+                game.direction = "RIGHT"
 
             # Optional: You could send a confirmation back to the client
             await websocket.send_text(f"Direction {direction} received")
