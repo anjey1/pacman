@@ -66,3 +66,19 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.snake-map {
+  position: absolute;
+  top: 27.5%;
+  left: 0px;
+  width: 640px;
+  height: 480px;
+  z-index: -100;
+}
+
+.game {
+  width: 640px; 
+  height: 480px;
+  z-index: 100;
+  position: relative
+}
