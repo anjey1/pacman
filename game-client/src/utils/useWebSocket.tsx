@@ -4,7 +4,8 @@ import React, { useEffect, useRef, useState } from "react";
 const Canvas: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [circles, setCircles] = useState<number[][]>([]);
-  
+  const [arrowKey, setArrowKey] = useState<string>("");
+
 
   const drawCircles = (ctx: CanvasRenderingContext2D, circles: number[][]) => {
     // Clear the canvas before each redraw
@@ -21,6 +22,7 @@ const Canvas: React.FC = () => {
 
   useEffect(() => {
     const ws = new WebSocket("ws://localhost:8000/ws");
+    const arrowWs = new WebSocket("ws://localhost:8000/ws/arrow"); // Connect to the arrow key WebSocket
 
     ws.onopen = () => console.log("WebSocket connected!");
     ws.onmessage = (event) => {
@@ -30,7 +32,24 @@ const Canvas: React.FC = () => {
     ws.onclose = () => console.warn("WebSocket disconnected!");
     ws.onerror = (error) => console.error("WebSocket error:", error);
 
-    return () => ws.close(); // Clean up on component unmount
+    arrowWs.onopen = () => console.log("Arrow key WebSocket connected!");
+
+    // Send the arrow key press when a key is pressed
+    const handleKeyDown = (event: KeyboardEvent) => {
+      const direction = event.key.toLowerCase();
+      if (['arrowleft', 'arrowright', 'arrowup', 'arrowdown'].includes(direction)) {
+        arrowWs.send(JSON.stringify({ arrow: direction }));
+        setArrowKey(direction); // Update state with the pressed key for display
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      arrowWs.close(); // Clean up arrow key WebSocket
+      ws.close(); // Clean up WebSocket connection
+    };
   }, []);
 
   useEffect(() => {
@@ -45,6 +64,7 @@ const Canvas: React.FC = () => {
   return (
     <div>
       <h1>WebSocket Circles</h1>
+      <p>Last Arrow Key Pressed: {arrowKey}</p>
       <canvas
         ref={canvasRef}
         width={800}
@@ -56,28 +76,3 @@ const Canvas: React.FC = () => {
 };
 
 export default Canvas;
-
-
-
-// const handleKeyDown = (event: React.KeyboardEvent) => {
-//     switch (event.key) {
-//         case "ArrowUp":
-//             sendAction("UP");
-//             break;
-//         case "ArrowDown":
-//             sendAction("DOWN");
-//             break;
-//         case "ArrowLeft":
-//             sendAction("LEFT");
-//             break;
-//         case "ArrowRight":
-//             sendAction("RIGHT");
-//             break;
-//         default:
-//             break;
-//     }
-// };
-
-// const handleClick = () => {
-//     sendAction("CLICK");
-// };
