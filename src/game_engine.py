@@ -13,6 +13,7 @@ class GameEngine:
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         pygame.display.set_caption("Pacman Game")
         self.clock = pygame.time.Clock()
+        self.game_start_time = pygame.time.get_ticks()
         self.pacman = Pacman([40, 40])
         # self.ghosts = [Ghost([100, 40]), Ghost([400, 40])]
         self.ghosts = [Ghost([400, 40])]
@@ -20,7 +21,24 @@ class GameEngine:
         self.running = True
         self.direction = "DOWN"  # Store the direction for continuous movement
         self.life = LIVE_NUM
-        self.game_state = [self.pacman, self.ghosts]
+
+        # Initialize positions and state
+
+        self.game_state = {
+            "positions": {
+                "pacman": [100, 100],  # Pac-Man position [x, y]
+                "ghosts": [
+                    [200, 200],  # Ghost 1 position [x, y]
+                    [300, 300],  # Ghost 2 position [x, y]
+                    # Add more ghosts if needed
+                ],
+            },
+            "state": {
+                "score": 0,  # Score based on elapsed time
+                "lives": 3,  # Number of lives left
+                "game_over": False,  # Whether the game is over or not
+            },
+        }
 
     def run(self):
         while self.running:
@@ -57,8 +75,14 @@ class GameEngine:
         for ghost in self.ghosts:
             ghost.move(self)
 
-        self.game_state[0] = self.pacman.position
-        self.game_state[1] = self.ghosts[0].position
+        self.game_state["positions"]["pacman"] = self.pacman.position
+        self.game_state["positions"]["ghosts"] = self.ghosts[0].position
+
+        self.game_state["state"]["score"] = int(
+            (pygame.time.get_ticks() - self.game_start_time) / 1000
+        )
+
+        self.game_state["state"]["lives"] = self.life
 
         if self.life < 1:
             font = pygame.font.Font(None, 74)
@@ -70,8 +94,10 @@ class GameEngine:
                     SCREEN_HEIGHT // 2 - text.get_height() // 2,
                 ),
             )
+            self.game_state["state"]["game_over"] = True
             pygame.display.flip()
             time.sleep(2)
+            self.game_state["state"]["game_over"] = False
             self.restart_game()
 
     def render(self):
