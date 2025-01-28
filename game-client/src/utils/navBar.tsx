@@ -3,9 +3,10 @@ import { FaHeart } from 'react-icons/fa'; // Heart icons
 
 interface NavbarProps {
     score: number;
+    life: number;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ score }) => {
+const Navbar: React.FC<NavbarProps> = ({ score, life }) => {
     return (
         <div className="navbar">
             {/* Left side - PAC-MAN text */}
@@ -21,16 +22,16 @@ const Navbar: React.FC<NavbarProps> = ({ score }) => {
 
             {/* Right side - Heart icons and score */}
             <div className="flex items-center">
-                {/* Heart Icons */}
-                <div className="heart-container">
-                    <FaHeart className="heart-icon" />
-                    <FaHeart className="heart-icon" />
-                    <FaHeart className="heart-icon" />
-                </div>
-
                 {/* Score */}
                 <div className="score-container">
                     <p>Score: {score}</p>
+                </div>
+
+                {/* Render hearts dynamically based on 'life' */}
+                <div className="heart-container flex">
+                    {[...Array(life)].map((_, index) => (
+                        <FaHeart key={index} className="heart-icon text-red-500 mr-1" />
+                    ))}
                 </div>
             </div>
         </div>
