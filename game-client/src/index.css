@@ -110,9 +110,11 @@ button:focus-visible {
 
 /* Heart Icons Container */
 .heart-container {
-  display: flex;
-  gap: 8px;
-  flex-flow: row-reverse;
+    display: flex;
+    gap: 8px;
+    flex-flow: row-reverse;
+    position: relative;
+    top: -14px;
 }
 
 .heart-icon {

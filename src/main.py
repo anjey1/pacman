@@ -13,7 +13,6 @@ arrow_queue = asyncio.Queue()  # Async queue for inputs
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
     print("WebSocket connection opened!")
-    start_time = asyncio.get_event_loop().time()  # Record the start time
 
     try:
         while True:
@@ -39,13 +38,7 @@ async def arrow_key_endpoint(websocket: WebSocket):
         while True:
             data = json.loads(await websocket.receive_text())
             direction = data["arrow"]
-            print(f"Received direction: {direction}")
 
-            # if event.type == pygame.QUIT:
-            #     self.running = False
-            # elif event.type == pygame.KEYDOWN:
-            #     if event.key == pygame.K_ESCAPE:
-            #         self.running = False
             if direction == "arrowup":
                 game.direction = "UP"
             elif direction == "arrowdown":
@@ -55,7 +48,7 @@ async def arrow_key_endpoint(websocket: WebSocket):
             elif direction == "arrowright":
                 game.direction = "RIGHT"
 
-            # Optional: You could send a confirmation back to the client
+
             await websocket.send_text(f"Direction {direction} received")
             await asyncio.sleep(1 / 30)
     except WebSocketDisconnect:

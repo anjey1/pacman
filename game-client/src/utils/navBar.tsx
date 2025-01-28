@@ -31,12 +31,12 @@ const Navbar: React.FC<NavbarProps> = ({ score, life }) => {
             </div>
 
             {/* Right side - Heart icons and score */}
-            <div className="flex items-center">
+            <div className="flex flex-col">
+                {/* Score */}
                 <div className="score-container pixel-text">
                     <p>{score.toString().padStart(4, "0")}</p>
                 </div>
 
-                {/* Render hearts dynamically based on 'life' */}
                 <div className="heart-container flex">
                     {[...Array(life)].map((_, index) => (
                         <img

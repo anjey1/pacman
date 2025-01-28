@@ -22,20 +22,18 @@ class GameEngine:
         self.life = LIVE_NUM
 
         # Initialize positions and state
-
         self.game_state = {
             "positions": {
                 "pacman": [100, 100],  # Pac-Man position [x, y]
                 "ghosts": [
                     [200, 200],  # Ghost 1 position [x, y]
                     [300, 300],  # Ghost 2 position [x, y]
-                    # Add more ghosts if needed
                 ],
             },
             "state": {
-                "score": 0,  # Score based on elapsed time
-                "lives": 3,  # Number of lives left
-                "game_over": False,  # Whether the game is over or not
+                "score": 0,
+                "lives": 3,
+                "game_over": False,
             },
         }
 
@@ -75,7 +73,6 @@ class GameEngine:
             ghost.move(self)
 
         self.game_state["positions"]["pacman"] = self.pacman.position
-        # self.game_state["positions"]["ghosts"] = self.ghosts[0].position
         self.game_state["positions"]["ghosts"] = [
             ghost.position for ghost in self.ghosts
         ]
