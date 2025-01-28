@@ -9,20 +9,61 @@ const Canvas: React.FC = () => {
   const [score, setScore] = useState<number>(0);
   const [life, setLife] = useState<number>(0);
   const [gameOver, setGameOver] = useState<boolean>(false);
+  const [images, setImages] = useState<HTMLImageElement[]>([]);
   const [arrowKey, setArrowKey] = useState<string>("");
 
-  const drawCircles = (ctx: CanvasRenderingContext2D, circles: number[][]) => {
-    // Clear the canvas before each redraw
+  const drawImages = (
+    ctx: CanvasRenderingContext2D,
+    images: HTMLImageElement[],
+    positions: number[][]
+  ) => {
+    // Clear the canvas before drawing
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
-    circles.forEach((circle, index) => {
-      const [x, y] = circle;
-      ctx.beginPath();
-      ctx.arc(x, y, 20, 0, Math.PI * 2); // Draw a circle with radius 20
-      ctx.fillStyle = index === 0 ? "yellow" : "red"; // Set color based on index
-      ctx.fill();
+    // Iterate through the images and draw each one at the specified position
+    images.forEach((image, index) => {
+      if (!image.complete) return; // Ensure the image is fully loaded
+
+      const [x, y] = positions[index] || [0, 0]; // Default to [0, 0] if no position is provided
+      const size = 40; // Size of the image to draw
+
+      // Draw the image centered at (x, y)
+      ctx.drawImage(image, x - size / 2, y - size / 2, size, size);
     });
   };
+
+  // Preload images and store them in state
+  useEffect(() => {
+    const loadedImages: HTMLImageElement[] = [];
+
+    const imageSrc = [
+      "/assets/pacman.png",
+      "/assets/enemy1.svg",
+      "/assets/enemy2.svg",
+      "/assets/enemy3.svg",
+    ]
+
+    let loadedCount = 0;
+
+    imageSrc.forEach((src, index) => {
+      const img = new Image();
+      img.src = src;
+
+      img.onload = () => {
+        loadedCount++;
+        loadedImages[index] = img;
+
+        // Once all images are loaded, update the state
+        if (loadedCount === imageSrc.length) {
+          setImages(loadedImages);
+        }
+      };
+
+      img.onerror = () => {
+        console.error(`Failed to load image: ${src}`);
+      };
+    });
+  }, []);
 
   useEffect(() => {
     const ws = new WebSocket("ws://localhost:8000/ws");
@@ -63,7 +104,7 @@ const Canvas: React.FC = () => {
     if (canvasRef.current) {
       const ctx = canvasRef.current.getContext("2d");
       if (ctx) {
-        drawCircles(ctx, circles); // Redraw the circles whenever the state changes
+        drawImages(ctx, images, circles);
       }
     }
   }, [circles]); // Re-run drawCircles whenever circles change

@@ -112,6 +112,7 @@ button:focus-visible {
 .heart-container {
   display: flex;
   gap: 8px;
+  flex-flow: row-reverse;
 }
 
 .heart-icon {
