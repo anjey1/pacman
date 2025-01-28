@@ -49,18 +49,6 @@ class GameEngine:
                 elif event.key == pygame.K_RIGHT:
                     self.direction = "RIGHT"
 
-    def handle_input(self, action):
-        if action == "UP":
-            self.player.y -= 5
-        elif action == "DOWN":
-            self.player.y += 5
-        elif action == "LEFT":
-            self.player.x -= 5
-        elif action == "RIGHT":
-            self.player.x += 5
-        elif action == "CLICK":
-            print("Mouse click received!")
-
     def update_game_state(self):
 
         if self.direction:
