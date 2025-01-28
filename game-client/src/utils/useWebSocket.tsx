@@ -31,7 +31,7 @@ const Canvas: React.FC = () => {
     ws.onopen = () => console.log("WebSocket connected!");
     ws.onmessage = (event) => {
       const data: number[][] = JSON.parse(event.data); // Parse the received data (list of coordinates)
-      setCircles([data.positions['pacman'], data.positions['ghosts']]); // Update state with new circle positions
+      setCircles([data.positions['pacman'], ...data.positions['ghosts']]); // Update state with new circle positions
       setScore(data.state['score'])
       setLife(data.state['lives'])
       setGameOver(data.state['game_over'])

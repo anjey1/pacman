@@ -90,13 +90,13 @@ button:focus-visible {
 }
 
 /* Individual Letter Colors for PAC-MAN */
-.pacman-p { color: #ffcc00; } /* Yellow */
-.pacman-a { color: #ff5733; } /* Red */
-.pacman-c { color: #33b5ff; } /* Blue */
-.pacman-dash { color: #33cc33; } /* Green */
-.pacman-m { color: #800080; } /* Purple */
-.pacman-a2 { color: #ff1493; } /* Pink */
-.pacman-n { color: #ff6600; } /* Orange */
+.pacman-p { color: #33b5ff; } /* Yellow */
+.pacman-a { color: #ffffff; } /* Red */
+.pacman-c { color: #33cc33; } /* Blue */
+.pacman-dash { color: #ffffff; } /* Green */
+.pacman-m { color: #ffffff; } /* Purple */
+.pacman-a2 { color: #ff6600; } /* Pink */
+.pacman-n { color: #ffffff; } /* Orange */
 
 /* Navbar Container */
 .navbar {

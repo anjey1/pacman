@@ -23,7 +23,7 @@ const Navbar: React.FC<NavbarProps> = ({ score, life }) => {
             {/* Right side - Heart icons and score */}
             <div className="flex items-center">
                 {/* Score */}
-                <div className="score-container">
+                <div className="score-container pixel-text">
                     <p>Score: {score}</p>
                 </div>
 

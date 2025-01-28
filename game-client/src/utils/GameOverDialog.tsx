@@ -7,7 +7,7 @@ const GameOverDialog: React.FC<GameOverDialogProps> = ({ gameOver }) => {
 
     return (
         <div class="dialog-overlay">
-            <div class="dialog-box">
+            <div class="dialog-box pixel-text">
                 <h2>Nice Try. Try Harder</h2>
             </div>
         </div>

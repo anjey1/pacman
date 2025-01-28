@@ -15,8 +15,7 @@ class GameEngine:
         self.clock = pygame.time.Clock()
         self.game_start_time = pygame.time.get_ticks()
         self.pacman = Pacman([40, 40])
-        # self.ghosts = [Ghost([100, 40]), Ghost([400, 40])]
-        self.ghosts = [Ghost([400, 40])]
+        self.ghosts = [Ghost([300, 330]), Ghost([300, 330]), Ghost([300, 330])]
         self.game_map = GameMap()
         self.running = True
         self.direction = "DOWN"  # Store the direction for continuous movement
@@ -76,7 +75,10 @@ class GameEngine:
             ghost.move(self)
 
         self.game_state["positions"]["pacman"] = self.pacman.position
-        self.game_state["positions"]["ghosts"] = self.ghosts[0].position
+        # self.game_state["positions"]["ghosts"] = self.ghosts[0].position
+        self.game_state["positions"]["ghosts"] = [
+            ghost.position for ghost in self.ghosts
+        ]
 
         self.game_state["state"]["score"] = int(
             (pygame.time.get_ticks() - self.game_start_time) / 1000
@@ -98,6 +100,7 @@ class GameEngine:
             pygame.display.flip()
             time.sleep(2)
             self.game_state["state"]["game_over"] = False
+            self.game_start_time = pygame.time.get_ticks()
             self.restart_game()
 
     def render(self):
@@ -110,7 +113,7 @@ class GameEngine:
 
     def restart_game(self):
         self.pacman = Pacman([40, 40])
-        self.ghosts = [Ghost([100, 40]), Ghost([400, 40])]
+        self.ghosts = [Ghost([300, 330]), Ghost([300, 330]), Ghost([300, 330])]
         self.game_map = GameMap()
         self.direction = None
         self.life = LIVE_NUM
